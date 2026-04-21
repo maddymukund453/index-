@@ -1,0 +1,8 @@
+/* QR Code Modal Styles */
+#qrModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+#qrModal.active { display: flex; }
+
+#scroll-progress {
+    position: fixed; top: 0; left: 0; width: 0%; height: 3px;
+    background: #dc2626; z-index: 100; transition: width 0.1s;
+}
