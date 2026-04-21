@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
@@ -22,6 +23,8 @@
 </head>
 <body>
 
+    
+
     <div id="overlay" class="overlay" onclick="toggleCart()"></div>
     <div id="cartDrawer" class="fixed right-0 top-0 h-full w-full max-w-sm bg-zinc-950 z-50 p-6 shadow-2xl border-l border-zinc-800">
         <div class="flex justify-between items-center mb-8">
@@ -36,6 +39,10 @@
                 <span>Total</span>
                 <span id="cartTotal" class="text-red-600">₹0/-</span>
             </div>
+            <div class="relative cursor-pointer group" onclick="openWishlistModal()">
+    <i class="fa-solid fa-heart text-xl text-white hover:text-red-600 transition"></i>
+    <span id="wishlistCount" class="absolute -top-2 -right-2 bg-red-600 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-black text-white">0</span>
+</div>
             <button onclick="checkoutNow()" class="w-full bg-red-600 py-4 font-black uppercase tracking-[0.2em] text-sm hover:bg-red-700 transition active:scale-95">Checkout Now</button>
         </div>
     </div>
@@ -101,74 +108,7 @@
         <div class="flex items-center space-x-4"><i class="fa-solid fa-shield-halved text-red-600"></i><p class="text-[9px] font-black uppercase tracking-widest">Premium Quality</p></div>
     </div>
 
-    <section class="pb-20 px-8 max-w-7xl mx-auto">
-        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-            
-            <div class="product-card group" data-category="sticker" data-name="porsche gt3 rs sticker">
-                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
-                    <img src="https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    <div class="absolute top-4 left-4 bg-red-600 text-[9px] font-black px-3 py-1.5 uppercase italic">Limited</div>
-                </div>
-                <div class="flex justify-between items-start">
-                    <div><h3 class="text-sm font-black uppercase italic">Porsche GT3 RS Decal</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">XL Wall Vinyl</p><p class="font-bold text-red-600 text-lg">₹159/-</p></div>
-                    <button onclick="addToCart('Porsche GT3 RS Decal', 159)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
-                </div>
-            </div>
-
-            <div class="product-card group" data-category="diecast" data-name="skyline r34 nissan diecast">
-                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
-                    <img src="https://down-br.img.susercontent.com/file/03a2c439ed3dd292000605f713d9bee1" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                </div>
-                <div class="flex justify-between items-start">
-                    <div><h3 class="text-sm font-black uppercase italic">Skyline R34 Diecast</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">1:64 Collectible</p><p class="font-bold text-red-600 text-lg">₹2,049/-</p></div>
-                    <button onclick="addToCart('Skyline R34 Diecast', 2049)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
-                </div>
-            </div>
-
-            <div class="product-card group" data-category="sticker" data-name="supra mk4 sticker">
-                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
-                    <img src="https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    <div class="absolute top-4 left-4 bg-white text-black text-[9px] font-black px-3 py-1.5 uppercase italic">Bestseller</div>
-                </div>
-                <div class="flex justify-between items-start">
-                    <div><h3 class="text-sm font-black uppercase italic">Supra MK4 Poster</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">A4 Aesthetic Vinyl</p><p class="font-bold text-red-600 text-lg">₹243/-</p></div>
-                    <button onclick="addToCart('Supra MK4 Poster', 243)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
-                </div>
-            </div>
-
-            <div class="product-card group" data-category="diecast" data-name="lamborghini aventador diecast">
-                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
-                    <img src="https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                </div>
-                <div class="flex justify-between items-start">
-                    <div><h3 class="text-sm font-black uppercase italic">Lambo Aventador</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Diecast Premium</p><p class="font-bold text-red-600 text-lg">₹1,899/-</p></div>
-                    <button onclick="addToCart('Lambo Aventador', 1899)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
-                </div>
-            </div>
-
-            <div class="product-card group" data-category="sticker" data-name="nissan gtr r35 godzilla sticker">
-                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
-                    <img src="https://m.media-amazon.com/images/I/61Zvfi2gE0L._SY741_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    <div class="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black px-3 py-1.5 uppercase italic">New Drop</div>
-                </div>
-                <div class="flex justify-between items-start">
-                    <div><h3 class="text-sm font-black uppercase italic">Nissan GTR Poster</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Reflective Vinyl</p><p class="font-bold text-red-600 text-lg">₹179/-</p></div>
-                    <button onclick="addToCart('Nissan GTR Poster', 179)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
-                </div>
-            </div>
-
-            <div class="product-card group" data-category="sticker" data-name="super car poster set">
-                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
-                    <img src="https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                </div>
-                <div class="flex justify-between items-start">
-                    <div><h3 class="text-sm font-black uppercase italic">Supercar Gallery</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Glossy Wall Set</p><p class="font-bold text-red-600 text-lg">₹234/-</p></div>
-                    <button onclick="addToCart('Supercar Gallery', 234)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <section class="py-20 bg-zinc-950 border-t border-zinc-900 overflow-hidden">
     <div class="px-8 max-w-7xl mx-auto mb-12 flex justify-between items-end">
         <div>
@@ -183,6 +123,101 @@
 
     <div id="hotWheelsScroll" class="flex space-x-8 overflow-x-auto px-8 pb-10 no-scrollbar select-none">
         </div>
+</section>
+
+<section class="pb-20 px-8 max-w-7xl mx-auto">
+    <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        
+        <div class="product-card group" data-category="sticker" data-name="porsche gt3 rs sticker">
+    <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5 cursor-pointer" onclick="openProductDetail('Porsche GT3 RS AC Sticker', 'https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg', 159)">
+        <img src="https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        
+        <div class="absolute top-4 left-4 z-20 flex flex-col gap-2">
+            <div class="bg-red-600 text-[9px] font-black px-3 py-1.5 uppercase italic text-white animate-pulse">Only 5 Left</div>
+        </div>
+
+        <div class="absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-sm py-2 text-center border-t border-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+            <p class="text-[8px] text-white font-black tracking-widest uppercase">Drop Ends In: <span class="text-red-500" id="porsche-timer">00:00:00</span></p>
+        </div>
+
+        <div class="wishlist-btn absolute top-4 right-4 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all" onclick="event.stopPropagation(); toggleWishlist(this, 'Porsche GT3 RS AC Sticker')">
+            <i class="fa-regular fa-heart text-xl"></i>
+        </div>
+    </div>
+    <div class="flex justify-between items-start">
+        <div><h3 class="text-sm font-black uppercase italic">Porsche GT3 RS AC Sticker</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">XL Wall Vinyl</p><p class="font-bold text-red-600 text-lg">₹159/-</p></div>
+        <button onclick="event.stopPropagation(); addToCart('Porsche GT3 RS Decal', 159)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+    </div>
+</div>
+
+        <div class="product-card group" data-category="diecast" data-name="skyline r34 nissan diecast">
+            <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                <img src="https://down-br.img.susercontent.com/file/03a2c439ed3dd292000605f713d9bee1" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                <div class="wishlist-btn absolute top-4 right-4 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all" onclick="toggleWishlist(this, 'Skyline R34 Diecast')">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div><h3 class="text-sm font-black uppercase italic">Skyline R34 Diecast</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">1:64 Collectible</p><p class="font-bold text-red-600 text-lg">₹2,049/-</p></div>
+                <button onclick="addToCart('Skyline R34 Diecast', 2049)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+            </div>
+        </div>
+
+        <div class="product-card group" data-category="sticker" data-name="supra mk4 sticker">
+            <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                <img src="https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                <div class="wishlist-btn absolute top-4 right-4 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all" onclick="toggleWishlist(this, 'Supra MK4 Poster')">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+                <div class="absolute top-4 left-4 bg-white text-black text-[9px] font-black px-3 py-1.5 uppercase italic">Bestseller</div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div><h3 class="text-sm font-black uppercase italic">Supra MK4 Poster</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">A4 Aesthetic Vinyl</p><p class="font-bold text-red-600 text-lg">₹243/-</p></div>
+                <button onclick="addToCart('Supra MK4 Poster', 243)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+            </div>
+        </div>
+
+        <div class="product-card group" data-category="diecast" data-name="lamborghini aventador diecast">
+            <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                <img src="https://m.media-amazon.com/images/I/71PIHaZ7+DL.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                <div class="wishlist-btn absolute top-4 right-4 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all" onclick="toggleWishlist(this, 'Lambo Aventador')">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div><h3 class="text-sm font-black uppercase italic">Lambo Aventador</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Diecast Premium</p><p class="font-bold text-red-600 text-lg">₹1,899/-</p></div>
+                <button onclick="addToCart('Lambo Aventador', 1899)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+            </div>
+        </div>
+
+        <div class="product-card group" data-category="sticker" data-name="nissan gtr r35 godzilla sticker">
+            <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                <img src="https://m.media-amazon.com/images/I/61Zvfi2gE0L._SY741_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                <div class="wishlist-btn absolute top-4 right-4 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all" onclick="toggleWishlist(this, 'Nissan GTR Poster')">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+                <div class="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black px-3 py-1.5 uppercase italic">New Drop</div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div><h3 class="text-sm font-black uppercase italic">Nissan GTR Poster</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Reflective Vinyl</p><p class="font-bold text-red-600 text-lg">₹179/-</p></div>
+                <button onclick="addToCart('Nissan GTR Poster', 179)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+            </div>
+        </div>
+
+        <div class="product-card group" data-category="sticker" data-name="super car poster set">
+            <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                <img src="https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                <div class="wishlist-btn absolute top-4 right-4 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all" onclick="toggleWishlist(this, 'Supercar Gallery')">
+                    <i class="fa-regular fa-heart text-xl"></i>
+                </div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div><h3 class="text-sm font-black uppercase italic">Supercar Gallery</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Glossy Wall Set</p><p class="font-bold text-red-600 text-lg">₹234/-</p></div>
+                <button onclick="addToCart('Supercar Gallery', 234)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+            </div>
+        </div>
+
+    </div>
 </section>
 
     <section class="py-24 bg-black border-t border-zinc-900 px-8">
@@ -242,6 +277,204 @@
         </div>
     </div>
 </section>
+
+<section id="community" class="py-20 bg-zinc-950 border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+                <h2 class="text-xs font-black tracking-[0.5em] uppercase text-red-600 mb-2 italic flex items-center">
+                    <span class="w-10 h-[2px] bg-red-600 mr-4"></span> The Showroom
+                </h2>
+                <p class="text-4xl font-black italic uppercase text-white">Member Collections.</p>
+            </div>
+            <button onclick="openPostModal()" class="bg-white text-black px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
+                Post Your Ride <i class="fa-solid fa-plus ml-2"></i>
+            </button>
+        </div>
+
+        <div id="communityGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="bg-zinc-900 border border-zinc-800 p-4 group">
+                <div class="aspect-square bg-black mb-4 overflow-hidden">
+                    <img src="https://down-br.img.susercontent.com/file/03a2c439ed3dd292000605f713d9bee1" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] font-black text-white uppercase italic">@HotWheelHunter</p>
+                        <p class="text-[9px] text-zinc-600 uppercase">JDM Holy Grail: Skyline R34</p>
+                    </div>
+                    <button class="text-red-600 transition" onclick="likePost(this)">
+                        <i class="fa-solid fa-heart"></i> <span class="text-[10px] font-bold">142</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900 border border-zinc-800 p-4 group">
+                <div class="aspect-square bg-black mb-4 overflow-hidden">
+                    <img src="https://img.ricardostatic.ch/images/efe7b6c6-b7f8-4c82-b407-4a8fb4e325c3/t_1800x1350/hot-wheels-ford-gt-40-gulf-2018-sammelversand-moglich" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] font-black text-white uppercase italic">@GulfAddict</p>
+                        <p class="text-[9px] text-zinc-600 uppercase">Gulf Livery Ford GT40</p>
+                    </div>
+                    <button class="text-zinc-700 hover:text-red-600 transition" onclick="likePost(this)">
+                        <i class="fa-solid fa-heart"></i> <span class="text-[10px] font-bold">88</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900 border border-zinc-800 p-4 group">
+                <div class="aspect-square bg-black mb-4 overflow-hidden">
+                    <img src="https://tse2.mm.bing.net/th/id/OIP.3kL0v9M2YUi2k3WkWEZk1AHaJ4?rs=1&pid=ImgDetMain&o=7&rm=3" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] font-black text-white uppercase italic">@VIPGarage</p>
+                        <p class="text-[9px] text-zinc-600 uppercase">Premium G-Wagon G63 Diecast</p>
+                    </div>
+                    <button class="text-zinc-700 hover:text-red-600 transition" onclick="likePost(this)">
+                        <i class="fa-solid fa-heart"></i> <span class="text-[10px] font-bold">56</span>
+                    </button>
+                </div>
+            </div>
+            
+            </div>
+    </div>
+</section>
+
+<div id="postModal" class="fixed inset-0 bg-black/95 z-[3000] hidden items-center justify-center p-6 backdrop-blur-md">
+    <div class="bg-zinc-900 border border-zinc-800 p-8 max-w-md w-full relative">
+        <button onclick="closePostModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+        <h3 class="text-xl font-black italic uppercase text-white mb-6">Share Your Collection</h3>
+        
+        <input type="text" id="postUser" placeholder="YOUR INSTA HANDLE (@...)" class="w-full bg-zinc-950 border border-zinc-800 p-4 text-[10px] font-bold text-white mb-4 focus:border-red-600 outline-none">
+        <input type="text" id="postImg" placeholder="IMAGE URL (Coming Soon: File Upload)" class="w-full bg-zinc-950 border border-zinc-800 p-4 text-[10px] font-bold text-white mb-4 focus:border-red-600 outline-none">
+        <textarea id="postCaption" placeholder="TELL US ABOUT THIS CAR..." class="w-full bg-zinc-950 border border-zinc-800 p-4 text-[10px] font-bold text-white mb-6 h-32 focus:border-red-600 outline-none"></textarea>
+        
+        <button onclick="submitPost()" class="w-full bg-red-600 py-4 text-[10px] font-black uppercase tracking-widest text-white hover:bg-white hover:text-black transition">Post to Showroom</button>
+    </div>
+</div>
+
+</div> <section class="py-20 bg-black border-y border-zinc-900 relative overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            
+            <div class="group">
+                <div class="mb-4 inline-block p-4 bg-zinc-900/50 border border-zinc-800 group-hover:border-red-600 transition-all duration-500 rounded-2xl">
+                    <i class="fa-solid fa-car-side text-3xl text-red-600"></i>
+                </div>
+                <h3 class="text-4xl font-black italic text-white tracking-tighter mb-1">10,000+</h3>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold">Machines Delivered</p>
+            </div>
+
+            <div class="group">
+                <div class="mb-4 inline-block p-4 bg-zinc-900/50 border border-zinc-800 group-hover:border-red-600 transition-all duration-500 rounded-2xl">
+                    <i class="fa-solid fa-users text-3xl text-red-600"></i>
+                </div>
+                <h3 class="text-4xl font-black italic text-white tracking-tighter mb-1">2,500+</h3>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold">Global Collectors</p>
+            </div>
+
+            <div class="group">
+                <div class="mb-4 inline-block p-4 bg-zinc-900/50 border border-zinc-800 group-hover:border-red-600 transition-all duration-500 rounded-2xl">
+                    <i class="fa-solid fa-star text-3xl text-red-600"></i>
+                </div>
+                <h3 class="text-4xl font-black italic text-white tracking-tighter mb-1">4.9/5.0</h3>
+                <div class="flex justify-center gap-1 mt-1">
+                    <i class="fa-solid fa-star text-[10px] text-yellow-500"></i>
+                    <i class="fa-solid fa-star text-[10px] text-yellow-500"></i>
+                    <i class="fa-solid fa-star text-[10px] text-yellow-500"></i>
+                    <i class="fa-solid fa-star text-[10px] text-yellow-500"></i>
+                    <i class="fa-solid fa-star text-[10px] text-yellow-500"></i>
+                </div>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mt-2">Elite Satisfaction</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+<footer class="..."> 
+   </footer>
+
+   <div id="cartOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10001] hidden transition-opacity duration-500"></div>
+
+<div id="sideCart" class="fixed top-0 right-[-100%] w-full max-w-md h-full bg-zinc-950 z-[10002] transition-all duration-500 shadow-[-10px_0_30px_rgba(0,0,0,0.5)] flex flex-col">
+    <div class="p-6 border-b border-zinc-900 flex justify-between items-center">
+        <h2 class="text-2xl font-black italic text-white uppercase tracking-tighter">Your Garage <span id="cartCountTag" class="text-red-600 text-sm ml-2">0</span></h2>
+        <button onclick="toggleCart()" class="text-zinc-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark text-2xl"></i></button>
+    </div>
+
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+        </div>
+
+    <div class="p-6 border-t border-zinc-900 bg-zinc-900/30">
+    
+    <button onclick="generateInvoice()" class="w-full bg-red-600 text-white py-4 font-black uppercase italic tracking-tighter hover:bg-white hover:text-black transition-all group flex items-center justify-center gap-3">
+        Proceed to Checkout
+        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+    </button>
+</div>
+
+        <div class="space-y-2 mb-6">
+            <div class="flex justify-between text-zinc-500 text-xs font-bold uppercase tracking-widest">
+                <span>Subtotal</span>
+                <span id="subtotalPrice">₹0/-</span>
+            </div>
+            <div class="flex justify-between text-red-500 text-[10px] font-bold uppercase tracking-widest">
+                <span>Estimated Delivery</span>
+                <span>24 - 28 April, 2026</span> </div>
+        </div>
+
+        <button class="w-full bg-red-600 text-white py-4 font-black uppercase italic tracking-tighter hover:bg-white hover:text-black transition-all group flex items-center justify-center gap-3">
+            Proceed to Checkout
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+        </button>
+    </div>
+</div>
+
+<div id="profileSection" class="min-h-screen bg-black py-20 px-6 hidden">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center gap-8 mb-16 border-b border-zinc-900 pb-12">
+            <div class="relative">
+                <div class="w-32 h-32 rounded-full border-2 border-red-600 p-1">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mukund" class="w-full h-full rounded-full bg-zinc-800" alt="Avatar">
+                </div>
+                <div class="absolute -bottom-2 -right-2 bg-red-600 text-[10px] font-black px-2 py-1 italic uppercase">Pro Collector</div>
+            </div>
+            
+            <div class="text-center md:text-left flex-1">
+                <h1 id="profileName" class="text-5xl font-black italic text-white uppercase tracking-tighter">Mukund More</h1>
+                <p id="profileBio" class="text-zinc-500 text-sm mt-2 max-w-md">Building the ultimate JDM & Muscle vault in Shriwardhan. 🏎️ | 9th Grade Coder</p>
+                
+                <div class="flex justify-center md:justify-start gap-6 mt-6">
+                    <div>
+                        <span class="block text-2xl font-black text-white italic">250+</span>
+                        <span class="text-[9px] uppercase tracking-widest text-zinc-600 font-bold">Followers</span>
+                    </div>
+                    <div>
+                        <span id="garageCount" class="block text-2xl font-black text-white italic">0</span>
+                        <span class="text-[9px] uppercase tracking-widest text-zinc-600 font-bold">In Garage</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-black text-white italic">1.2k</span>
+                        <span class="text-[9px] uppercase tracking-widest text-zinc-600 font-bold">Views</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="px-8 py-3 bg-zinc-900 border border-zinc-800 text-white text-xs font-black uppercase hover:border-red-600 transition-all">Edit Bio</button>
+        </div>
+
+        <h2 class="text-xl font-black italic text-white uppercase mb-8 flex items-center gap-3">
+            <i class="fa-solid fa-warehouse text-red-600"></i> My Personal Garage
+        </h2>
+        <div id="personalGarageGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            </div>
+    </div>
+</div>
 
     <footer class="bg-zinc-950 border-t border-zinc-900 py-12 px-8 text-center md:text-left">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-zinc-600 text-[10px] font-black uppercase tracking-[0.3em]">
@@ -436,67 +669,56 @@ window.onscroll = function() {
 <script>
 const hotWheelsData = [
     // --- JDM LEGENDS ---
-    { name: "Nissan Skyline R34 GT-R", price: 827, img: "https://m.media-amazon.com/images/I/61gzpA9Nk7L._SX522_.jpg" },
-    { name: "Toyota Supra MK4 (Orange)", price: 17780, img: "https://m.media-amazon.com/images/I/71cJxLZ-hcL._SX522_.jpg" },
-    { name: "Mazda RX-7 FD (Mad Mike)", price: 388, img: "https://m.media-amazon.com/images/I/71crj897f5L._SX522_.jpg" },
-    { name: "Honda Civic Type R (EK9)", price: 999, img: "https://m.media-amazon.com/images/I/71mNRtttR-L._SX522_.jpg" },
-    { name: "Subaru Impreza 22B", price: 494, img: "https://m.media-amazon.com/images/I/61jrPqXS8WL._SX522_.jpg" },
-    { name: "Nissan Silvia S15 Liberty Walk", price: 539, img: "https://m.media-amazon.com/images/I/71wS67QYUXL._SX522_.jpg" },
-    { name: "Mitsubishi Lancer Evo VI", price: 1979, img: "https://m.media-amazon.com/images/I/811ApaY2zRL.jpg" },
+    { name: "Nissan Skyline R34 GT-R", price: 827, img: "https://cf.shopee.co.id/file/d6bfdc0411f555bcf86565035d184105", specs: { speed: "250 km/h", engine: "RB26DETT I6", origin: "Japan" }, fact: "Known as 'Godzilla', it dominated Group A racing so much it was eventually banned." },
+    { name: "Toyota Supra MK4 (Orange)", price: 1778, img: "https://m.media-amazon.com/images/I/71cJxLZ-hcL._SX522_.jpg", specs: { speed: "250 km/h", engine: "2JZ-GTE I6", origin: "Japan" }, fact: "The 2JZ engine is legendary for its ability to handle massive amounts of boost and horsepower." },
+    { name: "Mazda RX-7 FD (Mad Mike)", price: 388, img: "https://m.media-amazon.com/images/I/71crj897f5L._SX522_.jpg", specs: { speed: "250 km/h", engine: "13B-REW Rotary", origin: "Japan" }, fact: "The RX-7 features a unique Wankel rotary engine instead of traditional pistons." },
+    { name: "Honda Civic Type R (EK9)", price: 999, img: "https://m.media-amazon.com/images/I/71mNRtttR-L._SX522_.jpg", specs: { speed: "225 km/h", engine: "B16B VTEC", origin: "Japan" }, fact: "The EK9 was the first Civic to receive the prestigious Type R badge." },
+    { name: "Subaru Impreza 22B", price: 494, img: "https://m.media-amazon.com/images/I/61jrPqXS8WL._SX522_.jpg", specs: { speed: "248 km/h", engine: "EJ22 Boxer", origin: "Japan" }, fact: "Only 400 of these wide-body rally legends were ever produced for the Japanese market." },
+    { name: "Nissan Silvia S15 Liberty Walk", price: 539, img: "https://m.media-amazon.com/images/I/71wS67QYUXL._SX522_.jpg", specs: { speed: "235 km/h", engine: "SR20DET", origin: "Japan" }, fact: "The S15 is a world-favorite for drifting due to its perfect weight distribution." },
+    { name: "Mitsubishi Lancer Evo VI", price: 1979, img: "https://m.media-amazon.com/images/I/811ApaY2zRL.jpg", specs: { speed: "240 km/h", engine: "4G63T I4", origin: "Japan" }, fact: "The Tommi Mäkinen Edition Evo VI was built to celebrate his four consecutive rally titles." },
 
     // --- SUPERCARS & EXOTICS ---
-    { name: "Lamborghini Aventador SVJ", price: 1399, img: "https://m.media-amazon.com/images/I/6101y3VmVZL._SX522_.jpg" },
-    { name: "Bugatti Chiron Sport", price: 2823, img: "https://m.media-amazon.com/images/I/71lMECiOIXL._SY679_.jpg" },
-    { name: "Porsche 911 GT3 RS", price: 1953, img: "https://m.media-amazon.com/images/I/81B8Xrb0VOL._SX522_.jpg" },
-    { name: "Ferrari F40 (Red)", price: 1299, img: "https://m.media-amazon.com/images/I/71-dr28BjwL._SY879_.jpg" },
-    { name: "Pagani Huayra Roadster", price: 849, img: "https://m.media-amazon.com/images/I/616fM9+Uw3L._SX522_.jpg" },
-    { name: "McLaren Senna (Victory Grey)", price: 999, img: "https://m.media-amazon.com/images/I/81jeOz7z6eL._AC_SL1500_.jpg" },
-    { name: "Koenigsegg Jesko", price: 1499, img: "https://m.media-amazon.com/images/I/61D+3k8OXAL._SX522_.jpg" },
+    { name: "Lamborghini Aventador SVJ", price: 1399, img: "https://m.media-amazon.com/images/I/6101y3VmVZL._SX522_.jpg", specs: { speed: "350 km/h", engine: "6.5L V12", origin: "Italy" }, fact: "The SVJ holds a former Nürburgring lap record for production cars." },
+    { name: "Bugatti Chiron Sport", price: 2823, img: "https://m.media-amazon.com/images/I/71lMECiOIXL._SY679_.jpg", specs: { speed: "420 km/h", engine: "8.0L W16", origin: "France" }, fact: "The Chiron's engine uses four turbochargers to produce over 1,500 horsepower." },
+    { name: "Porsche 911 GT3 RS", price: 1953, img: "https://m.media-amazon.com/images/I/81B8Xrb0VOL._SX522_.jpg", specs: { speed: "296 km/h", engine: "4.0L Flat-6", origin: "Germany" }, fact: "The 'RS' stands for RennSport, emphasizing its focus on track performance." },
+    { name: "Ferrari F40 (Red)", price: 1299, img: "https://m.media-amazon.com/images/I/71-dr28BjwL._SY879_.jpg", specs: { speed: "324 km/h", engine: "2.9L Twin-Turbo V8", origin: "Italy" }, fact: "The F40 was the last car personally approved by Enzo Ferrari before his death." },
+    { name: "Pagani Huayra Roadster", price: 849, img: "https://m.media-amazon.com/images/I/616fM9+Uw3L._SX522_.jpg", specs: { speed: "338 km/h", engine: "6.0L V12 Bi-Turbo", origin: "Italy" }, fact: "Every Pagani is handcrafted with carbotanium—a mix of carbon fiber and titanium." },
+    { name: "McLaren Senna (Victory Grey)", price: 999, img: "https://m.media-amazon.com/images/I/81jeOz7z6eL._AC_SL1500_.jpg", specs: { speed: "335 km/h", engine: "4.0L V8", origin: "UK" }, fact: "Named after F1 legend Ayrton Senna, it is designed for maximum downforce." },
+    { name: "Koenigsegg Jesko", price: 1499, img: "https://m.media-amazon.com/images/I/61D+3k8OXAL._SX522_.jpg", specs: { speed: "480+ km/h", engine: "5.0L Twin-Turbo V8", origin: "Sweden" }, fact: "The Jesko features the world's lightest and fastest-shifting multi-clutch transmission." },
 
     // --- AMERICAN MUSCLE ---
-    { name: "Ford Mustang Shelby GT500", price: 1499, img: "https://m.media-amazon.com/images/I/611MmpN7pSL._SX522_.jpg" },
-    { name: "Dodge Charger Hellcat Widebody", price: 475, img: "https://m.media-amazon.com/images/I/516f6gZKjlL._SX522_.jpg" },
-    { name: "Chevrolet Camaro ZL1", price: 1995, img: "https://m.media-amazon.com/images/I/71AYmH6FMJL._SY879_.jpg" },
-    { name: "Plymouth Barracuda 1970", price: 375, img: "https://m.media-amazon.com/images/I/61phz3hR4OL._SX522_.jpg" },
-    { name: "Pontiac Firebird Trans Am", price: 335, img: "https://m.media-amazon.com/images/I/418IrPkvqYL._SY300_SX300_QL70_FMwebp_.jpg" },
+    { name: "Ford Mustang Shelby GT500", price: 1499, img: "https://m.media-amazon.com/images/I/611MmpN7pSL._SX522_.jpg", specs: { speed: "290 km/h", engine: "5.2L Supercharged V8", origin: "USA" }, fact: "The GT500 is the most powerful street-legal Ford ever built." },
+    { name: "Dodge Charger Hellcat Widebody", price: 475, img: "https://m.media-amazon.com/images/I/516f6gZKjlL._SX522_.jpg", specs: { speed: "315 km/h", engine: "6.2L HEMI V8", origin: "USA" }, fact: "The Supercharged Hellcat engine produces a distinct 'whine' sound that fans love." },
+    { name: "Chevrolet Camaro ZL1", price: 1995, img: "https://m.media-amazon.com/images/I/71AYmH6FMJL._SY879_.jpg", specs: { speed: "318 km/h", engine: "6.2L LT4 V8", origin: "USA" }, fact: "The ZL1 1LE is often called a 'supercar killer' due to its insane track times." },
+    { name: "Plymouth Barracuda 1970", price: 375, img: "https://m.media-amazon.com/images/I/61phz3hR4OL._SX522_.jpg", specs: { speed: "200 km/h", engine: "7.0L HEMI V8", origin: "USA" }, fact: "The 1970 'Cuda is one of the most valuable and iconic muscle cars in history." },
+    { name: "Pontiac Firebird Trans Am", price: 335, img: "https://m.media-amazon.com/images/I/418IrPkvqYL._SY300_SX300_QL70_FMwebp_.jpg", specs: { speed: "215 km/h", engine: "6.6L V8", origin: "USA" }, fact: "Made famous by 'Smokey and the Bandit', featuring the iconic 'Screaming Chicken' hood decal." },
 
     // --- MOVIE & THEME CARS ---
-    { name: "Fast & Furious Dodge Charger", price: 1409, img: "https://m.media-amazon.com/images/I/615f5WQbBKL._SX522_.jpg" },
-    { name: "Batman Batmobile (Arkham)", price: 1449, img: "https://m.media-amazon.com/images/I/51m2aVq1R5L.jpg" },
-    { name: "DeLorean (Back to the Future)", price: 399, img: "https://m.media-amazon.com/images/I/61WijaWS90L._SX522_.jpg" },
-    { name: "Scooby-Doo Mystery Machine", price: 7001, img: "https://m.media-amazon.com/images/I/71QfUjLxs-L._SX522_.jpg" },
+    { name: "Fast & Furious Dodge Charger", price: 1409, img: "https://m.media-amazon.com/images/I/615f5WQbBKL._SX522_.jpg", specs: { speed: "220 km/h", engine: "Supercharged HEMI", origin: "USA" }, fact: "Dominic Toretto's Charger is famous for its massive wheelies and exposed blower." },
+    { name: "Batman Batmobile (Arkham)", price: 1449, img: "https://m.media-amazon.com/images/I/51m2aVq1R5L.jpg", specs: { speed: "300+ km/h", engine: "Wayne Tech Turbine", origin: "Gotham" }, fact: "This version from Arkham Knight can transform into a tank-like 'Battle Mode'." },
+    { name: "DeLorean (Back to the Future)", price: 399, img: "https://m.media-amazon.com/images/I/61WijaWS90L._SX522_.jpg", specs: { speed: "141 km/h", engine: "Flux Capacitor", origin: "USA" }, fact: "In the movie, it needs exactly 1.21 Gigawatts of power to travel through time." },
+    { name: "Scooby-Doo Mystery Machine", price: 7001, img: "https://m.media-amazon.com/images/I/71QfUjLxs-L._SX522_.jpg", specs: { speed: "120 km/h", engine: "Flat-4", origin: "Mystery Inc" }, fact: "This iconic van has been solving mysteries with the gang since 1969." },
 
     // --- OFF-ROAD & TRACK ---
-    { name: "Ford Bronco 'R'", price: 1959, img: "https://m.media-amazon.com/images/I/61TcQCura9L._SY679_.jpg" },
-    { name: "Land Rover Defender 90", price: 549, img: "https://m.media-amazon.com/images/I/5110RmHvkJL._SX300_SY300_QL70_FMwebp_.jpg" },
-    { name: "Jeep Wrangler Rubicon", price: 798, img: "https://m.media-amazon.com/images/I/51FJSk4GCyL._SY300_SX300_QL70_FMwebp_.jpg" },
-    { name: "Mercedes G-Wagon G63", price: 12499, img: "https://tse2.mm.bing.net/th/id/OIP.3kL0v9M2YUi2k3WkWEZk1AHaJ4?rs=1&pid=ImgDetMain&o=7&rm=3" },
-    { name: "Audi RS6 Avant (Wagon)", price: 899, img: "https://rihappy.vtexassets.com/arquivos/ids/8391010/Carrinho---Hot-Wheels---Audi-RS6-Avant---Mattel-0.jpg?v=638864565977170000" },
+    { name: "Ford Bronco 'R'", price: 1959, img: "https://m.media-amazon.com/images/I/61TcQCura9L._SY679_.jpg", specs: { speed: "180 km/h", engine: "2.7L EcoBoost", origin: "USA" }, fact: "The 'R' prototype was built to test the Bronco's durability in the Baja 1000 desert race." },
+    { name: "Land Rover Defender 90", price: 549, img: "https://m.media-amazon.com/images/I/5110RmHvkJL._SX300_SY300_QL70_FMwebp_.jpg", specs: { speed: "175 km/h", engine: "Turbocharged I4", origin: "UK" }, fact: "The Defender is famous for being used by the British Royal Family for decades." },
+    { name: "Jeep Wrangler Rubicon", price: 798, img: "https://m.media-amazon.com/images/I/51FJSk4GCyL._SY300_SX300_QL70_FMwebp_.jpg", specs: { speed: "160 km/h", engine: "2.0L Turbo", origin: "USA" }, fact: "The Rubicon is named after the legendary Rubicon Trail in California." },
+    { name: "Mercedes G-Wagon G63", price: 12499, img: "https://tse2.mm.bing.net/th/id/OIP.3kL0v9M2YUi2k3WkWEZk1AHaJ4?rs=1&pid=ImgDetMain&o=7&rm=3", specs: { speed: "220 km/h", engine: "4.0L Bi-Turbo V8", origin: "Germany" }, fact: "Originally developed as a military vehicle, it is now a symbol of ultimate luxury." },
+    { name: "Audi RS6 Avant (Wagon)", price: 899, img: "https://rihappy.vtexassets.com/arquivos/ids/8391010/Carrinho---Hot-Wheels---Audi-RS6-Avant---Mattel-0.jpg?v=638864565977170000", specs: { speed: "280 km/h", engine: "4.0L V8 Bi-Turbo", origin: "Germany" }, fact: "The RS6 is the ultimate 'sleeper'—a family wagon with supercar-beating performance." },
 
     // --- RANDOM COLLECTIBLES ---
-    { name: "Tesla Roadster (with Starman)", price: 599, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
-    { name: "Bone Shaker (Black & Gold)", price: 199, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
-    { name: "Twin Mill (Classic)", price: 189, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
-    { name: "Cyberpunk 2077 Porsche", price: 699, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" },
-    { name: "Volvo 240 Drift Wagon", price: 229, img: "https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" },
-    { name: "Toyota AE86 Trueno", price: 349, img: "https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" },
-    { name: "BMW M3 E46 (Blue)", price: 299, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
-    { name: "Aston Martin Valkyrie", price: 429, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
-    { name: "Lotus Evija", price: 379, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
-    { name: "Rimac Nevera", price: 399, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" },
-    { name: "Ford GT-40 Gulf Livery", price: 549, img: "https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" },
-    { name: "Shelby Cobra 427 S/C", price: 499, img: "https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" },
-    { name: "Jaguar E-Type Lightweight", price: 349, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
-    { name: "Corvette C8.R", price: 299, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
-    { name: "Buggati EB110", price: 449, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
-    { name: "Lancia Delta Integrale", price: 269, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" },
-    { name: "Alpine A110", price: 249, img: "https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" },
-    { name: "Custom '01 Acura Integra", price: 299, img: "https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" },
-    { name: "Alfa Romeo Giulia GTA", price: 329, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
-    { name: "Datsun 510 Wagon", price: 499, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
-    { name: "Mercedes 500 E (W124)", price: 349, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
-    { name: "GMC Hummer EV", price: 299, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" }
+    { name: "Tesla Roadster (with Starman)", price: 2912, img: "https://m.media-amazon.com/images/I/81Xot4zbj6L._SY879_.jpg", specs: { speed: "400+ km/h", engine: "Electric Motors", origin: "Space" }, fact: "This car was actually launched into space by SpaceX on the Falcon Heavy rocket." },
+    { name: "Bone Shaker (Black & Gold)", price: 2984, img: "https://m.media-amazon.com/images/I/81QRIsCccbL._SX522_.jpg", specs: { speed: "N/A", engine: "V8 Hot Rod", origin: "Hot Wheels" }, fact: "Bone Shaker is one of the most famous and recognizable original Hot Wheels designs." },
+    { name: "Toyota AE86 Trueno", price: 999, img: "https://m.media-amazon.com/images/I/51YBUPaVEyL._SX522_.jpg", specs: { speed: "200 km/h", engine: "4A-GE I4", origin: "Japan" }, fact: "Made legendary by the 'Initial D' anime as the ultimate drift car." },
+    { name: "BMW M3 E46 (Blue)", price: 1859, img: "https://images-cdn.ubuy.co.in/634e578b8fe1cb3f3d64e7c3-hot-wheels-bmw-m3-e46-blue-1-car.jpg", specs: { speed: "250 km/h", engine: "3.2L S54 I6", origin: "Germany" }, fact: "The E46 M3 is widely considered the best M3 ever made by BMW enthusiasts." },
+    { name: "Aston Martin Valkyrie", price: 3999, img: "https://creations.mattel.com/cdn/shop/files/HWC_PDP__Image_06_M_HWR91_E64-AstonMartinValkyrie.jpg?v=1739386977", specs: { speed: "350+ km/h", engine: "6.5L V12", origin: "UK" }, fact: "The Valkyrie was co-designed with Red Bull Racing's aerodynamic genius, Adrian Newey." },
+    { name: "Lotus Evija", price: 999, img: "https://m.media-amazon.com/images/I/71OLuMcfUTL.jpg", specs: { speed: "350 km/h", engine: "Quad Electric", origin: "UK" }, fact: "The Evija is the first all-electric British hypercar." },
+    { name: "Rimac Nevera", price: 699, img: "https://agrmodels.uk/cdn/shop/files/hw-ml-rimac-nevera-blue-sc.jpg?v=1725919212&width=1100", specs: { speed: "412 km/h", engine: "Quad Electric", origin: "Croatia" }, fact: "The Nevera holds the record for the fastest-ever production car in reverse!" },
+    { name: "Ford GT-40 Gulf Livery", price: 799, img: "https://img.ricardostatic.ch/images/efe7b6c6-b7f8-4c82-b407-4a8fb4e325c3/t_1800x1350/hot-wheels-ford-gt-40-gulf-2018-sammelversand-moglich", specs: { speed: "346 km/h", engine: "7.0L V8", origin: "USA" }, fact: "The GT40 famously defeated Ferrari at the 24 Hours of Le Mans four times in a row." },
+    { name: "Shelby Cobra 427 S/C", price: 899, img: "https://164custom.com/images/HW/7185/Shelby-Cobra-427-SC-hot-wheels-2024-Case-K.jpg", specs: { speed: "265 km/h", engine: "7.0L V8", origin: "USA" }, fact: "Carroll Shelby's creation—a lightweight British chassis with a massive American V8." },
+    { name: "Corvette C8.R", price: 1499, img: "https://m.media-amazon.com/images/I/712ICSaw4TL._AC_SL1500_.jpg", specs: { speed: "290 km/h", engine: "5.5L Flat-Plane V8", origin: "USA" }, fact: "The C8.R was the first mid-engine Corvette designed specifically for endurance racing." }
 ];
+
 
 function openVault() {
     const vault = document.getElementById('vaultModal');
@@ -513,28 +735,633 @@ function closeVault() {
     document.body.style.overflow = 'auto'; // screen scoll unlock with some extra feathers 
 }
 
-// Ye function grid me saari gaadiyan bhar dega
 function loadVault() {
     const grid = document.getElementById('vaultGrid');
-    // Agar pehle se loaded hai toh dubara mat karo
     if(grid.innerHTML.trim() !== "") return; 
 
     hotWheelsData.forEach(car => {
+        const isWishlisted = wishlist.includes(car.name) ? 'active' : '';
+        const heartIcon = wishlist.includes(car.name) ? 'fa-solid' : 'fa-regular';
+        const safeName = car.name.replace(/'/g, "\\'");
+
+        // --- RARITY LOGIC ---
+        let rarityTag = '<span class="bg-emerald-500 text-white text-[7px] font-black px-2 py-0.5 uppercase italic">🟢 Common</span>';
+        if(car.price > 2500 || car.name.includes("Skyline")) {
+            rarityTag = '<span class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[7px] font-black px-2 py-0.5 uppercase italic shadow-[0_0_10px_rgba(234,179,8,0.5)]">🔥 Treasure Hunt</span>';
+        } else if(car.price > 1500) {
+            rarityTag = '<span class="bg-purple-600 text-white text-[7px] font-black px-2 py-0.5 uppercase italic shadow-[0_0_10px_rgba(168,85,247,0.4)]">🟣 Super Rare</span>';
+        } else if(car.price > 800) {
+            rarityTag = '<span class="bg-blue-600 text-white text-[7px] font-black px-2 py-0.5 uppercase italic">🔵 Rare</span>';
+        }
+
         grid.innerHTML += `
-            <div class="bg-zinc-900 p-3 border border-zinc-800 hover:border-red-600 transition group">
-                <div class="aspect-square mb-3 overflow-hidden bg-black flex items-center justify-center">
-                    <img src="${car.img}" class="w-full h-full object-contain group-hover:scale-110 transition duration-500">
+            <div class="bg-zinc-900 p-4 border border-zinc-800 hover:border-red-600 transition group relative cursor-pointer" 
+                 onclick="openProductDetail('${safeName}', '${car.img}', ${car.price}, '${car.specs.speed}', '${car.specs.engine}', '${car.specs.origin}', '${car.fact.replace(/'/g, "\\'")}')">
+                
+                <div class="absolute top-3 left-3 z-20 flex flex-col gap-1">
+                    ${rarityTag}
                 </div>
-                <p class="text-[9px] font-black uppercase italic truncate mb-1 text-white">${car.name}</p>
-                <p class="text-red-600 font-bold text-[10px] mb-3">₹${car.price}/-</p>
-                <button onclick="addToCart(\`${car.name}\`, ${car.price})" class="w-full bg-white text-black text-[8px] font-black py-2 uppercase hover:bg-red-600 hover:text-white transition active:scale-95">
-                    Add to Cart
+
+                <div class="wishlist-btn absolute top-3 right-3 z-20 text-white/50 hover:text-red-600 cursor-pointer transition-all ${isWishlisted}" 
+                     onclick="event.stopPropagation(); toggleWishlist(this, '${safeName}')">
+                    <i class="${heartIcon} fa-heart text-lg"></i>
+                </div>
+
+                <div class="overflow-hidden mb-4 pointer-events-none">
+                    <img src="${car.img}" class="w-full h-32 object-contain group-hover:scale-110 transition duration-500">
+                </div>
+                
+                <p class="text-[10px] font-black uppercase italic text-white truncate mb-1">${car.name}</p>
+                <div class="flex justify-between items-center">
+                    <p class="text-red-600 font-bold text-xs">₹${car.price}/-</p>
+                    <p class="text-[7px] text-zinc-500 uppercase">${car.specs.origin}</p>
+                </div>
+                
+                <button onclick="event.stopPropagation(); addToCart('${safeName}', ${car.price})" 
+                        class="w-full mt-4 bg-white text-black text-[9px] font-black py-2 hover:bg-red-600 hover:text-white transition uppercase italic">
+                    Add to Garage
                 </button>
             </div>
         `;
     });
 }
 
+
 </script>
+
+<script>
+let wishlist = JSON.parse(localStorage.getItem('revlimitWishlist')) || [];
+
+function toggleWishlist(element, productName) {
+    const icon = element.querySelector('i');
+    
+    if (wishlist.includes(productName)) {
+        // Remove from wishlist
+        wishlist = wishlist.filter(item => item !== productName);
+        icon.classList.replace('fa-solid', 'fa-regular');
+        element.classList.remove('active');
+    } else {
+        // Add to wishlist
+        wishlist.push(productName);
+        icon.classList.replace('fa-regular', 'fa-solid');
+        element.classList.add('active');
+    }
+    
+    localStorage.setItem('revlimitWishlist', JSON.stringify(wishlist));
+    updateWishlistCount(); // <--- Ye line add kar dena bas!
+}
+
+</script>
+
+<div id="wishlistModal" class="fixed inset-0 bg-black/95 z-[2000] hidden flex-col overflow-y-auto no-scrollbar backdrop-blur-md">
+    <div class="sticky top-0 bg-black/90 p-6 border-b border-zinc-900 flex justify-between items-center z-20">
+        <h2 class="text-xl font-black italic uppercase tracking-tighter text-white">Dream Garage <span class="text-red-600">.</span></h2>
+        <button onclick="closeWishlistModal()" class="text-white hover:text-red-600 transition p-2">
+            <i class="fa-solid fa-xmark text-3xl"></i>
+        </button>
+    </div>
+    
+    <div id="wishlistContainer" class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        </div>
+
+    <div id="wishlistEmptyMsg" class="hidden text-center py-20">
+        <p class="text-zinc-500 uppercase tracking-[0.3em] italic text-sm">Your dream garage is empty.</p>
+    </div>
+</div>
+
+<script>
+// 1. Wishlist Modal kholne ka logic
+function openWishlistModal() {
+    const modal = document.getElementById('wishlistModal');
+    const container = document.getElementById('wishlistContainer');
+    const emptyMsg = document.getElementById('wishlistEmptyMsg');
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    container.innerHTML = ''; // Pehle list saaf karo
+    
+    if (wishlist.length === 0) {
+        emptyMsg.classList.remove('hidden');
+    } else {
+        emptyMsg.classList.add('hidden');
+        wishlist.forEach(itemName => {
+            // Har saved item ke liye ek chota card
+            container.innerHTML += `
+                <div class="bg-zinc-900 p-4 border border-zinc-800 flex justify-between items-center group">
+                    <div>
+                        <p class="text-white font-black uppercase italic text-sm">${itemName}</p>
+                        <p class="text-zinc-500 text-[9px] uppercase tracking-[0.2em]">Saved in Garage</p>
+                    </div>
+                    <button onclick="removeFromWishlistDirect('${itemName}')" class="text-zinc-600 hover:text-red-600 transition-colors">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `;
+        });
+    }
+}
+
+// 2. Wishlist Modal band karne ka logic
+function closeWishlistModal() {
+    document.getElementById('wishlistModal').classList.add('hidden');
+}
+
+// 3. Modal ke andar se delete karne ka logic
+function removeFromWishlistDirect(name) {
+    wishlist = wishlist.filter(item => item !== name);
+    localStorage.setItem('revlimitWishlist', JSON.stringify(wishlist));
+    
+    // UI update karo
+    openWishlistModal(); 
+    updateWishlistCount();
+    
+    // Main page ke heart icon ko wapas empty karne ke liye (refresh jaruri hai ya logic handle karna hoga)
+    location.reload(); 
+}
+
+// 4. Navbar mein count dikhane ka logic
+function updateWishlistCount() {
+    const countBadge = document.getElementById('wishlistCount');
+    if(countBadge) {
+        countBadge.innerText = wishlist.length;
+    }
+}
+
+// Page load hote hi count set karo
+updateWishlistCount();
+
+
+</script>
+
+<script>
+function openPostModal() {
+    document.getElementById('postModal').classList.replace('hidden', 'flex');
+}
+
+function closePostModal() {
+    document.getElementById('postModal').classList.replace('flex', 'hidden');
+}
+
+function likePost(btn) {
+    const icon = btn.querySelector('i');
+    const span = btn.querySelector('span');
+    let count = parseInt(span.innerText);
+    
+    if (icon.classList.contains('text-red-600')) {
+        icon.classList.remove('text-red-600');
+        span.innerText = count - 1;
+    } else {
+        icon.classList.add('text-red-600');
+        span.innerText = count + 1;
+    }
+}
+
+function submitPost() {
+    // modal ke inputs se direct value lo
+    const userField = document.getElementById('postUser');
+    const imgField = document.getElementById('postImg');
+    const captionField = document.getElementById('postCaption');
+
+    const user = userField.value.trim();
+    const img = imgField.value.trim();
+    const caption = captionField.value.trim() || "Just landed another beauty."; // Default caption if empty
+
+    // Basic Validation
+    if(!user || !img) {
+        alert("Bhai, kam se kam Insta handle aur photo ka URL toh daalo! 🏎️");
+        return;
+    }
+
+    const grid = document.getElementById('communityGrid');
+    const newPost = `
+        <div class="bg-zinc-900 border border-zinc-800 p-4 group animate-fade-in relative">
+            
+            <div class="absolute top-3 left-3 bg-red-600 text-[8px] font-bold text-white px-2 py-0.5 uppercase z-10 animate-pulse">ACTIVE</div>
+
+            <div class="aspect-square bg-black mb-4 overflow-hidden relative border border-red-600/20">
+                <img src="${img}" class="w-full h-full object-cover transition group-hover:scale-105 duration-500">
+            </div>
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-[10px] font-black text-white uppercase italic">${user}</p>
+                    <p class="text-[9px] text-zinc-600 uppercase">${caption}</p>
+                </div>
+                <button class="text-red-600 transition" onclick="likePost(this)">
+                    <i class="fa-solid fa-heart"></i> <span class="text-[10px] font-bold">1</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Naya post grid ke start mein add karo
+    grid.insertAdjacentHTML('afterbegin', newPost);
+    
+    // Modal band karo
+    closePostModal();
+    
+    // Fields clear karo
+    userField.value = '';
+    imgField.value = '';
+    captionField.value = '';
+}
+
+</script>
+
+<div id="detailModal" class="fixed inset-0 bg-black/98 z-[4000] hidden flex-col overflow-y-auto no-scrollbar">
+    <button onclick="closeDetailModal()" class="absolute top-8 right-8 text-white hover:text-red-600 z-[4001] transition">
+        <i class="fa-solid fa-xmark text-4xl"></i>
+    </button>
+
+    <div class="max-w-7xl mx-auto px-8 py-20 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="relative group cursor-grab active:cursor-grabbing">
+                <div class="absolute -top-10 left-0 bg-red-600 text-[10px] font-black px-3 py-1 uppercase italic">360° Interactive View</div>
+                <div id="productRotateContainer" class="aspect-square bg-zinc-900 border border-zinc-800 flex items-center justify-center overflow-hidden">
+                    <img id="detailImg" src="" class="w-4/5 h-4/5 object-contain transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <p class="text-zinc-600 text-[9px] uppercase tracking-widest mt-4 text-center">Drag to rotate (Simulation) / Hover to Zoom</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h2 id="detailTitle" class="text-5xl font-black italic uppercase text-white mb-2 tracking-tighter"></h2>
+                <p id="detailPrice" class="text-2xl font-bold text-red-600 mb-8"></p>
+                
+                <div class="grid grid-cols-3 gap-4 mb-10">
+                    <div class="bg-zinc-900 border border-zinc-800 p-4">
+                        <p class="text-zinc-500 text-[8px] uppercase font-black mb-1">Top Speed</p>
+                        <p id="specSpeed" class="text-white font-bold text-sm italic">---</p>
+                    </div>
+                    <div class="bg-zinc-900 border border-zinc-800 p-4">
+                        <p class="text-zinc-500 text-[8px] uppercase font-black mb-1">Engine</p>
+                        <p id="specEngine" class="text-white font-bold text-sm italic">---</p>
+                    </div>
+                    <div class="bg-zinc-900 border border-zinc-800 p-4">
+                        <p class="text-zinc-500 text-[8px] uppercase font-black mb-1">Origin</p>
+                        <p id="specOrigin" class="text-white font-bold text-sm italic">---</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-red-600 bg-zinc-900/50 p-6 mb-10">
+                    <p class="text-red-600 text-[10px] font-black uppercase mb-2">Did You Know? 🏁</p>
+                    <p id="detailFact" class="text-zinc-300 text-sm italic leading-relaxed"></p>
+                </div>
+
+                <button id="detailAddBtn" class="w-full bg-white text-black font-black py-5 uppercase italic hover:bg-red-600 hover:text-white transition-all tracking-widest">
+                    Add to Garage
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-32">
+            <h3 class="text-xl font-black italic uppercase text-white mb-10 flex items-center">
+                <span class="w-8 h-[2px] bg-red-600 mr-4"></span> Related Machines
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openProductDetail(name, img, price) {
+    const modal = document.getElementById('productModal');
+    
+    // Modal Details Update
+    document.getElementById('detailModalTitle').innerText = name;
+    document.getElementById('detailModalImg').src = img;
+    document.getElementById('detailModalPrice').innerText = `₹${price}/-`;
+    
+    // Static Information (Aap ise car data se bhi change kar sakte ho)
+    document.getElementById('detailModalDesc').innerText = "Premium diecast model with high-quality finish and authentic details.";
+
+    // Add button logic for modal
+    const modalAddBtn = document.getElementById('modalAddBtn');
+    modalAddBtn.onclick = function() {
+        addToCart(name, price);
+        closeProductDetail();
+        
+    };
+
+    // Isse apne Product Modal ke title ke niche HTML mein add kar do
+// <div id="viewingCount" class="flex items-center gap-2 text-[10px] text-green-500 font-bold uppercase tracking-tighter mt-2"></div>
+
+function updateViewers() {
+    const count = Math.floor(Math.random() * (12 - 2 + 1)) + 2; // 2 se 12 ke beech random
+    const viewerElement = document.getElementById('viewingCount');
+    if(viewerElement) {
+        viewerElement.innerHTML = `
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            ${count} People viewing this machine
+        `;
+    }
+}
+
+    // Show Modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden'; // Scroll disable
+}
+
+function closeProductDetail() {
+    const modal = document.getElementById('productModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto'; // Scroll enable
+}
+
+function loadRelatedCars(currentName) {
+    const relatedGrid = document.getElementById('relatedGrid');
+    relatedGrid.innerHTML = '';
+    
+    const others = hotWheelsData.filter(c => c.name !== currentName).sort(() => 0.5 - Math.random()).slice(0, 4);
+    
+    others.forEach(car => {
+        relatedGrid.innerHTML += `
+            <div class="bg-zinc-900 p-4 border border-zinc-800 hover:border-red-600 transition cursor-pointer" onclick="openProductDetail('${car.name}')">
+                <img src="${car.img}" class="w-full h-24 object-contain mb-4">
+                <p class="text-[9px] font-black text-white uppercase italic truncate">${car.name}</p>
+            </div>
+        `;
+    });
+}
+
+function closeDetailModal() {
+    document.getElementById('detailModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+</script>
+
+<div id="productModal" class="fixed inset-0 bg-black/95 z-[500] hidden items-center justify-center p-6 backdrop-blur-md">
+    <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 bg-zinc-950 border border-zinc-900 p-8 relative">
+        <button onclick="closeProductDetail()" class="absolute top-4 right-4 text-zinc-500 hover:text-white">
+            <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+
+        <div class="bg-zinc-900 aspect-square flex items-center justify-center border border-zinc-800 overflow-hidden group">
+            <img id="detailModalImg" src="" class="w-full h-full object-contain p-8 group-hover:scale-125 transition duration-500 cursor-zoom-in">
+        </div>
+
+        <div class="flex flex-col justify-center">
+            <h2 id="detailModalTitle" class="text-3xl font-black italic uppercase text-white mb-2">GAADI KA NAAM</h2>
+            <p id="detailModalDesc" class="text-zinc-500 text-[9px] uppercase tracking-widest mb-6">INFORMATION</p>
+            <div id="detailModalPrice" class="text-3xl font-black text-red-600 mb-8">₹0/-</div>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="border border-zinc-800 p-3"><p class="text-[8px] text-zinc-500 uppercase">Scale</p><p class="text-[10px] font-bold">1:64 PREMIUM</p></div>
+                <div class="border border-zinc-800 p-3"><p class="text-[8px] text-zinc-500 uppercase">Condition</p><p class="text-[10px] font-bold text-green-500">MINT BOX</p></div>
+            </div>
+
+            <button id="modalAddBtn" class="w-full bg-white text-black py-4 font-black uppercase italic hover:bg-red-600 hover:text-white transition">
+                Add to Garage
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', function(e) {
+        let x = e.clientX - e.target.offsetLeft;
+        let y = e.clientY - e.target.offsetTop;
+
+        let ripple = document.createElement('span');
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple-effect');
+
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+});
+
+</script>
+
+<script>
+// GSAP Page Load Animation
+window.addEventListener('load', () => {
+    gsap.from(".group", {
+        duration: 1,
+        y: 50,
+        opacity: 0,
+        stagger: 0.1, // Ek-ek karke cards aayenge
+        ease: "power4.out"
+    });
+    
+    gsap.from("nav", {
+        duration: 1,
+        y: -30,
+        opacity: 0,
+        ease: "expo.out"
+    });
+});
+
+</script>
+
+<script>
+let cart = [];
+
+function toggleCart() {
+    const cartPanel = document.getElementById('sideCart');
+    const overlay = document.getElementById('cartOverlay');
+    const isHidden = cartPanel.style.right === "0px";
+
+    if (isHidden) {
+        cartPanel.style.right = "-100%";
+        overlay.classList.add('hidden');
+        document.body.style.overflow = "auto";
+    } else {
+        cartPanel.style.right = "0px";
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = "hidden";
+        renderCart();
+    }
+}
+
+function updateQuantity(index, change) {
+    if (cart[index].qty + change > 0) {
+        cart[index].qty += change;
+        renderCart();
+    } else {
+        cart.splice(index, 1); // Remove item if qty is 0
+        renderCart();
+    }
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItemsContainer');
+    let subtotal = 0;
+
+    container.innerHTML = cart.map((item, index) => {
+        subtotal += item.price * item.qty;
+        return `
+            <div class="flex gap-4 items-center animate-slide-in">
+                <div class="w-20 h-20 bg-black rounded-lg border border-zinc-800 p-2">
+                    <img src="${item.img}" class="w-full h-full object-contain">
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-white font-bold text-sm uppercase italic">${item.name}</h4>
+                    <p class="text-red-500 font-bold text-xs">₹${item.price}/-</p>
+                    
+                    <div class="flex items-center gap-3 mt-2">
+                        <button onclick="updateQuantity(${index}, -1)" class="w-6 h-6 border border-zinc-800 text-zinc-500 hover:text-white">-</button>
+                        <span class="text-white text-xs font-bold">${item.qty}</span>
+                        <button onclick="updateQuantity(${index}, 1)" class="w-6 h-6 border border-zinc-800 text-zinc-500 hover:text-white">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('subtotalPrice').innerText = `₹${subtotal}/-`;
+    document.getElementById('cartCountTag').innerText = cart.length;
+}
+
+</script>
+
+<script>
+window.generateInvoice = function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let currentY = 60;
+
+    // --- Header Styling ---
+    doc.setFillColor(0, 0, 0);
+    doc.rect(0, 0, 210, 40, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.text("PETROLHEADS COLLECTIVE", 105, 20, { align: "center" });
+    doc.setFontSize(10);
+    doc.text("ORDER SUMMARY | 2026 OFFICIAL RELEASE", 105, 30, { align: "center" });
+
+    // --- Customer/Order Info ---
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    doc.text(`Order Date: ${new Date().toLocaleDateString()}`, 20, 50);
+    doc.text(`Status: Verified Petrolhead`, 150, 50);
+
+    // --- Table Header ---
+    doc.setDrawColor(220, 38, 38); // Hot Wheels Red
+    doc.line(20, 55, 190, 55);
+    doc.setFont("helvetica", "bold");
+    doc.text("MACHINE NAME", 25, 65);
+    doc.text("QTY", 130, 65);
+    doc.text("PRICE", 160, 65);
+    doc.line(20, 70, 190, 70);
+
+    // --- Loop through Cart ---
+    doc.setFont("helvetica", "normal");
+    let total = 0;
+    currentY = 80;
+
+    cart.forEach((item) => {
+        doc.text(item.name.toUpperCase(), 25, currentY);
+        doc.text(item.qty.toString(), 133, currentY);
+        doc.text(`Rs. ${item.price}/-`, 160, currentY);
+        total += (item.price * item.qty);
+        currentY += 10;
+    });
+
+    // --- Total Section ---
+    doc.line(20, currentY + 5, 190, currentY + 5);
+    doc.setFont("helvetica", "bold");
+    doc.text("SUBTOTAL:", 130, currentY + 15);
+    doc.setTextColor(220, 38, 38);
+    doc.text(`Rs. ${total}/-`, 160, currentY + 15);
+
+    // --- Footer Message ---
+    doc.setTextColor(150, 150, 150);
+    doc.setFontSize(8);
+    doc.text("Thank you for adding to your garage. Keep Drifting!", 105, 280, { align: "center" });
+
+    // Save the PDF
+    doc.save(`Petrolheads_Order_${Date.now()}.pdf`);
+};
+
+</script>
+
+<div id="salesPopup" class="fixed bottom-6 left-6 bg-zinc-950 border border-zinc-800 p-4 rounded-xl shadow-2xl z-[10005] translate-y-[200%] transition-all duration-700 flex items-center gap-4 max-w-xs">
+    <div class="w-12 h-12 bg-red-600/10 rounded-lg flex items-center justify-center">
+        <i class="fa-solid fa-fire text-red-600 animate-pulse"></i>
+    </div>
+    <div>
+        <p id="salesText" class="text-[11px] text-white font-medium italic"></p>
+        <p class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Just Now</p>
+    </div>
+</div>
+
+<script>
+// Data for Random Activity
+const names = ["Rahul", "Aryan", "Ishan", "Sahil", "Siddharth", "Zaid"];
+const cities = ["Mumbai", "Pune", "Shriwardhan", "Delhi", "Bangalore"];
+const carsList = ["Nissan GTR", "Toyota Supra", "Porsche 911", "Mazda RX-7", "Ford GT"];
+
+function showRandomSale() {
+    const popup = document.getElementById('salesPopup');
+    const text = document.getElementById('salesText');
+    
+    // Pick Random Data
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+    const randomCar = carsList[Math.floor(Math.random() * carsList.length)];
+
+    text.innerHTML = `<span class="text-red-500 font-black">${randomName}</span> from ${randomCity} bought <span class="text-white font-bold">${randomCar}</span>`;
+
+    // Show Popup
+    popup.style.transform = "translateY(0)";
+
+    // Hide after 5 seconds
+    setTimeout(() => {
+        popup.style.transform = "translateY(200%)";
+    }, 5000);
+}
+
+// Start Cycle
+setInterval(showRandomSale, 15000); // Har 15 seconds mein popup aayega
+
+</script>
+
+<script>
+let myGarage = [];
+
+function addToPersonalGarage() {
+    // Cart ka saara data garage mein shift kar do
+    cart.forEach(item => {
+        if(!myGarage.find(c => c.name === item.name)) {
+            myGarage.push(item);
+        }
+    });
+
+    renderPersonalGarage();
+    alert("Machines added to your Personal Garage! 🏎️");
+}
+
+function renderPersonalGarage() {
+    const grid = document.getElementById('personalGarageGrid');
+    document.getElementById('garageCount').innerText = myGarage.length;
+
+    grid.innerHTML = myGarage.map(car => `
+        <div class="bg-zinc-950 border border-zinc-900 p-4 group hover:border-red-600 transition-all duration-500">
+            <img src="${car.img}" class="w-full h-40 object-contain mb-4 filter grayscale group-hover:grayscale-0 transition-all">
+            <h4 class="text-white font-bold text-sm uppercase italic">${car.name}</h4>
+            <div class="flex justify-between items-center mt-2">
+                <span class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest font-bold">Acquired</span>
+                <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+            </div>
+        </div>
+    `).join('');
+}
+
+</script>
+
 </body>
 </html>
