@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVLIMIT | Premium Diecast & Wall Decals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        .hero-gradient { 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1594732832278-abd644401426?auto=format&fit=crop&q=80&w=1600'); 
+            background-size: cover; background-position: center; 
+        }
+        #cartDrawer { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        #cartDrawer.open { transform: translateX(0); }
+        .overlay { display: none; background: rgba(0,0,0,0.8); position: fixed; inset: 0; z-index: 40; backdrop-filter: blur(4px); }
+        .overlay.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <div id="overlay" class="overlay" onclick="toggleCart()"></div>
+    <div id="cartDrawer" class="fixed right-0 top-0 h-full w-full max-w-sm bg-zinc-950 z-50 p-6 shadow-2xl border-l border-zinc-800">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-xl font-black uppercase italic tracking-tighter">Your Garage</h2>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
+        </div>
+        <div id="cartItems" class="space-y-6 overflow-y-auto max-h-[65vh] pr-2">
+            <p class="text-gray-500 italic text-center py-10">Your garage is empty.</p>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full p-6 bg-zinc-900 border-t border-zinc-800">
+            <div class="flex justify-between mb-4 font-bold text-lg">
+                <span>Total</span>
+                <span id="cartTotal" class="text-red-600">₹0/-</span>
+            </div>
+            <button onclick="checkoutNow()" class="w-full bg-red-600 py-4 font-black uppercase tracking-[0.2em] text-sm hover:bg-red-700 transition active:scale-95">Checkout Now</button>
+        </div>
+    </div>
+
+    <nav class="flex items-center justify-between px-8 py-6 border-b border-zinc-800 sticky top-0 bg-black z-30">
+    <div class="text-2xl font-black tracking-tighter text-red-600 italic">REVLIMIT.</div>
+    
+    <div class="hidden lg:flex items-center justify-center">
+        <p class="text-[9px] font-bold uppercase tracking-[0.4em] text-zinc-500 border-x border-zinc-800 px-6 py-1">
+            Presented by <span class="text-white">MUKUND MORE</span>
+        </p>
+    </div>
+
+    <div class="flex items-center space-x-8">
+        <div class="hidden md:flex space-x-8 font-black uppercase text-[10px] tracking-widest text-zinc-400">
+            <a href="#collection" class="hover:text-white transition">Diecast Gold</a>
+            <a href="#collection" class="hover:text-white transition">Wall Aesthetics</a>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+    <div class="relative cursor-pointer group" onclick="toggleCart()">
+        <i class="fa-solid fa-cart-shopping text-xl group-hover:text-red-500 transition"></i>
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-black text-white">0</span>
+    </div>
+
+    <a href="#collection" class="bg-red-600 text-white text-[10px] px-3 py-1.5 rounded font-black italic tracking-tighter hover:bg-white hover:text-red-600 transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.5)] active:scale-90">
+        SALE
+    </a>
+</div>
+</nav>
+
+    <header class="hero-gradient h-[60vh] flex flex-col items-center justify-center text-center px-4">
+        <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-none mb-4">Aesthetics for<br><span class="text-red-600 underline decoration-white decoration-4 underline-offset-8">Petrolheads.</span></h1>
+        <p class="text-gray-300 max-w-lg mb-8 text-[10px] uppercase tracking-[0.4em] opacity-80">Limited Edition Stickers & Rare Diecasts</p>
+        <button onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})" class="bg-white text-black px-10 py-4 font-black uppercase text-[10px] tracking-[0.3em] hover:bg-red-600 hover:text-white transition duration-500 shadow-2xl">Shop Now</button>
+    </header>
+
+    <div id="collection" class="px-8 max-w-7xl mx-auto mt-20">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-800 pb-8">
+            <div>
+                <h2 class="text-xs font-black tracking-[0.5em] uppercase text-red-600 mb-2 flex items-center">
+                    <span class="w-12 h-[2px] bg-red-600 mr-4"></span> The Collection
+                </h2>
+                <p class="text-zinc-500 text-[10px] uppercase tracking-widest italic">Rare Finds & Custom Decals</p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="relative group w-full md:w-auto">
+                    <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="SEARCH GARAGE..." class="bg-zinc-900 border border-zinc-800 text-white text-[10px] tracking-[0.2em] py-3.5 px-12 focus:outline-none focus:border-red-600 transition w-full md:w-64 italic">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-zinc-700 text-[11px]"></i>
+                </div>
+                <div class="flex bg-zinc-900 p-1 border border-zinc-800">
+                    <button onclick="filterCategory('all')" class="cat-btn active px-5 py-2 text-[9px] font-black uppercase tracking-tighter bg-red-600 transition">All</button>
+                    <button onclick="filterCategory('sticker')" class="cat-btn px-5 py-2 text-[9px] font-black uppercase tracking-tighter hover:text-red-500 transition">Stickers</button>
+                    <button onclick="filterCategory('diecast')" class="cat-btn px-5 py-2 text-[9px] font-black uppercase tracking-tighter hover:text-red-500 transition">Diecast</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-12 max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 opacity-50">
+        <div class="flex items-center space-x-4"><i class="fa-solid fa-truck-fast text-red-600"></i><p class="text-[9px] font-black uppercase tracking-widest">Pan India Shipping</p></div>
+        <div class="flex items-center space-x-4"><i class="fa-brands fa-whatsapp text-green-500"></i><p class="text-[9px] font-black uppercase tracking-widest">WhatsApp Support</p></div>
+        <div class="flex items-center space-x-4"><i class="fa-solid fa-shield-halved text-red-600"></i><p class="text-[9px] font-black uppercase tracking-widest">Premium Quality</p></div>
+    </div>
+
+    <section class="pb-20 px-8 max-w-7xl mx-auto">
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+            
+            <div class="product-card group" data-category="sticker" data-name="porsche gt3 rs sticker">
+                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                    <img src="https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute top-4 left-4 bg-red-600 text-[9px] font-black px-3 py-1.5 uppercase italic">Limited</div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div><h3 class="text-sm font-black uppercase italic">Porsche GT3 RS Decal</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">XL Wall Vinyl</p><p class="font-bold text-red-600 text-lg">₹159/-</p></div>
+                    <button onclick="addToCart('Porsche GT3 RS Decal', 159)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+                </div>
+            </div>
+
+            <div class="product-card group" data-category="diecast" data-name="skyline r34 nissan diecast">
+                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                    <img src="https://down-br.img.susercontent.com/file/03a2c439ed3dd292000605f713d9bee1" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="flex justify-between items-start">
+                    <div><h3 class="text-sm font-black uppercase italic">Skyline R34 Diecast</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">1:64 Collectible</p><p class="font-bold text-red-600 text-lg">₹2,049/-</p></div>
+                    <button onclick="addToCart('Skyline R34 Diecast', 2049)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+                </div>
+            </div>
+
+            <div class="product-card group" data-category="sticker" data-name="supra mk4 sticker">
+                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                    <img src="https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute top-4 left-4 bg-white text-black text-[9px] font-black px-3 py-1.5 uppercase italic">Bestseller</div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div><h3 class="text-sm font-black uppercase italic">Supra MK4 Poster</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">A4 Aesthetic Vinyl</p><p class="font-bold text-red-600 text-lg">₹243/-</p></div>
+                    <button onclick="addToCart('Supra MK4 Poster', 243)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+                </div>
+            </div>
+
+            <div class="product-card group" data-category="diecast" data-name="lamborghini aventador diecast">
+                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                    <img src="https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="flex justify-between items-start">
+                    <div><h3 class="text-sm font-black uppercase italic">Lambo Aventador</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Diecast Premium</p><p class="font-bold text-red-600 text-lg">₹1,899/-</p></div>
+                    <button onclick="addToCart('Lambo Aventador', 1899)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+                </div>
+            </div>
+
+            <div class="product-card group" data-category="sticker" data-name="nissan gtr r35 godzilla sticker">
+                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                    <img src="https://m.media-amazon.com/images/I/61Zvfi2gE0L._SY741_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black px-3 py-1.5 uppercase italic">New Drop</div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div><h3 class="text-sm font-black uppercase italic">Nissan GTR Poster</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Reflective Vinyl</p><p class="font-bold text-red-600 text-lg">₹179/-</p></div>
+                    <button onclick="addToCart('Nissan GTR Poster', 179)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+                </div>
+            </div>
+
+            <div class="product-card group" data-category="sticker" data-name="super car poster set">
+                <div class="aspect-[4/5] bg-zinc-900 overflow-hidden relative mb-5">
+                    <img src="https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="flex justify-between items-start">
+                    <div><h3 class="text-sm font-black uppercase italic">Supercar Gallery</h3><p class="text-zinc-500 text-[9px] mb-2 uppercase">Glossy Wall Set</p><p class="font-bold text-red-600 text-lg">₹234/-</p></div>
+                    <button onclick="addToCart('Supercar Gallery', 234)" class="border-2 border-white hover:bg-white hover:text-black text-[9px] font-black px-4 py-2 uppercase transition">Add</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-zinc-950 border-t border-zinc-900 overflow-hidden">
+    <div class="px-8 max-w-7xl mx-auto mb-12 flex justify-between items-end">
+        <div>
+            <h2 class="text-xs font-black tracking-[0.5em] uppercase text-red-600 mb-2 italic">Special Setup</h2>
+            <h3 class="text-3xl md:text-4xl font-black uppercase italic">Hot Wheels <span class="text-zinc-700">Garage.</span></h3>
+        </div>
+        
+        <button onclick="openVault()" class="text-[10px] font-black uppercase tracking-widest border-b-2 border-red-600 pb-1 hover:text-red-500 transition">
+            Explore All (50+)
+        </button>
+    </div>
+
+    <div id="hotWheelsScroll" class="flex space-x-8 overflow-x-auto px-8 pb-10 no-scrollbar select-none">
+        </div>
+</section>
+
+    <section class="py-24 bg-black border-t border-zinc-900 px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-xs font-black tracking-[0.5em] uppercase text-red-600 mb-4 italic">The Garage Talk</h2>
+            <h3 class="text-3xl md:text-5xl font-black uppercase italic italic leading-none">Verified <span class="text-zinc-500">Petrolheads.</span></h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-zinc-900/50 p-8 border border-zinc-800 hover:border-red-600 transition duration-500 group">
+                <div class="flex text-red-600 mb-4 text-[10px]">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-zinc-300 text-xs italic leading-relaxed mb-6">"Sticker quality is insane! GT3 RS wala decal ekdum clean lag raha hai mere wall pe. Packing bhi solid thi."</p>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-[1px] bg-zinc-700 group-hover:bg-red-600 transition"></div>
+                    <p class="text-[9px] font-black uppercase tracking-widest text-white">Aryan K.</p>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/50 p-8 border border-zinc-800 hover:border-red-600 transition duration-500 group">
+                <div class="flex text-red-600 mb-4 text-[10px]">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-zinc-300 text-xs italic leading-relaxed mb-6">"R34 Diecast is a masterpiece. Details are crazy for 1:64 scale. Mukund More really knows what enthusiasts want!"</p>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-[1px] bg-zinc-700 group-hover:bg-red-600 transition"></div>
+                    <p class="text-[9px] font-black uppercase tracking-widest text-white">Pratham S.</p>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/50 p-8 border border-zinc-800 hover:border-red-600 transition duration-500 group">
+                <div class="flex text-red-600 mb-4 text-[10px]">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-zinc-300 text-xs italic leading-relaxed mb-6">"Fast shipping and responsive support. Best place to get custom car aesthetics in India. 10/10 recommended."</p>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-[1px] bg-zinc-700 group-hover:bg-red-600 transition"></div>
+                    <p class="text-[9px] font-black uppercase tracking-widest text-white">Sahil M.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-20 px-8 max-w-4xl mx-auto border-t border-zinc-900">
+    <h2 class="text-center font-black italic uppercase tracking-widest mb-12">Pit Stop / FAQ</h2>
+    <div class="space-y-6">
+        <div class="border-b border-zinc-800 pb-4">
+            <p class="text-red-600 font-black text-[10px] uppercase mb-2 italic">01. Shipping Time?</p>
+            <p class="text-zinc-500 text-xs italic">Usually 5-7 business days across India.</p>
+        </div>
+        <div class="border-b border-zinc-800 pb-4">
+            <p class="text-red-600 font-black text-[10px] uppercase mb-2 italic">02. Custom Orders?</p>
+            <p class="text-zinc-500 text-xs italic">DM us on Instagram for custom car decals.</p>
+        </div>
+    </div>
+</section>
+
+    <footer class="bg-zinc-950 border-t border-zinc-900 py-12 px-8 text-center md:text-left">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-zinc-600 text-[10px] font-black uppercase tracking-[0.3em]">
+            <p>&copy; 2026 REVLIMIT Collective / Curated by Mukund More</p>
+            <div class="flex space-x-8 mt-6 md:mt-0">
+                <a href="#" class="hover:text-white transition">Instagram</a>
+                <a href="#" class="hover:text-white transition">Shipping</a>
+                <a href="#" class="hover:text-white transition">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    let cart = [];
+    const cartDrawer = document.getElementById('cartDrawer');
+    const overlay = document.getElementById('overlay');
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+
+    // --- CONFIGURATION ---
+    const upiId = "mukundmore@okaxis"; // Aapka UPI ID
+    const phoneNumber = "8668788044";   // Aapka WhatsApp Number
+
+    function toggleCart() {
+        cartDrawer.classList.toggle('open');
+        overlay.classList.toggle('active');
+    }
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCartUI();
+        if(!cartDrawer.classList.contains('open')) toggleCart();
+    }
+
+    function updateCartUI() {
+        cartCount.innerText = cart.length;
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-gray-500 italic text-center py-10">Your garage is empty.</p>';
+        } else {
+            cart.forEach((item, index) => {
+                total += item.price;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "flex justify-between items-center border-b border-zinc-800 pb-4 mb-4";
+                itemDiv.innerHTML = `<div><p class="font-black text-xs uppercase italic tracking-tighter">${item.name}</p><p class="text-red-500 text-xs font-bold">₹${item.price}/-</p></div><button onclick="removeItem(${index})" class="text-zinc-600 hover:text-white text-[9px] font-bold uppercase underline">Remove</button>`;
+                cartItemsContainer.appendChild(itemDiv);
+            });
+        }
+        cartTotal.innerText = `₹${total}/-`;
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function searchProducts() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('product-card');
+        for (let card of cards) {
+            let name = card.getAttribute('data-name').toLowerCase();
+            card.style.display = name.includes(input) ? "block" : "none";
+        }
+    }
+
+    function filterCategory(category) {
+        let cards = document.getElementsByClassName('product-card');
+        let buttons = document.getElementsByClassName('cat-btn');
+        for (let btn of buttons) {
+            btn.classList.remove('bg-red-600');
+            if(btn.innerText.toLowerCase() === category || (category === 'all' && btn.innerText.toLowerCase() === 'all')) btn.classList.add('bg-red-600');
+        }
+        for (let card of cards) {
+            let cardCat = card.getAttribute('data-category');
+            card.style.display = (category === 'all' || cardCat === category) ? "block" : "none";
+        }
+    }
+
+    function checkoutNow() {
+    if (cart.length === 0) { 
+        alert("Bhai, cart empty hai!"); 
+        return; 
+    }
+
+    let total = 0;
+    cart.forEach(item => total += item.price);
+
+    // 1. UPI Parameters ko clean aur encode karein
+    const vpa = upiId.trim(); 
+    const name = "MUKUND MORE";
+    const amount = total.toString();
+    
+    // Standard UPI Intent String (Iska format sahi hona bahut zaroori hai)
+    let upiLink = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+    
+    // 2. QR Code URL (Primary: Google Charts)
+    let qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(upiLink)}&choe=UTF-8&chld=L|1`;
+
+    // 3. UI Update
+    const qrImgElement = document.getElementById('qrImage');
+    
+    // Pehle purani image hatao taaki "broken icon" na dikhe
+    qrImgElement.src = ""; 
+    qrImgElement.alt = "Generating QR Code...";
+    
+    // Naya QR load karo
+    qrImgElement.src = qrUrl;
+
+    document.getElementById('qrAmountText').innerText = `₹${total}/-`;
+    document.getElementById('qrModal').classList.add('active');
+
+    // --- BACKUP LOGIC: Agar Google fail ho jaye ---
+    qrImgElement.onerror = function() {
+        console.log("Google Charts failed, switching to backup...");
+        this.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
+    };
+}
+
+// Ye modal band karne ke liye hai
+function closeQR() {
+    const modal = document.getElementById('qrModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('active');
+}
+
+// Ye WhatsApp par bhejane ke liye hai
+function confirmPaymentWhatsApp() {
+    let total = 0;
+    let itemsList = "";
+    cart.forEach((item, index) => {
+        itemsList += `${index + 1}. *${item.name}* - ₹${item.price}/-%0A`;
+        total += item.price;
+    });
+
+    let message = `🏁 *NEW ORDER* 🏁%0A%0A*Items:*%0A${itemsList}%0A💰 *Total Paid:* ₹${total}/-%0A%0A📸 *Sending payment screenshot!*`;
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    
+    cart = [];
+    updateCartUI();
+    closeQR();
+    if(cartDrawer.classList.contains('open')) toggleCart();
+}
+</script>
+
+    <div id="qrModal" class="fixed inset-0 bg-black/90 z-[100] hidden items-center justify-center backdrop-blur-sm">
+    <div class="bg-zinc-900 p-8 border border-zinc-800 text-center max-w-xs w-full mx-4 relative">
+        <button onclick="closeQR()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+
+        <h3 class="text-white font-black uppercase italic tracking-tighter mb-2 italic">Scan to Pay</h3>
+        <p id="qrAmountText" class="text-red-600 font-bold text-xl mb-6">₹0/-</p>
+        
+        <div class="bg-white p-4 mb-6 inline-block">
+            <img id="qrImage" src="" alt="QR Code" class="w-48 h-48">
+        </div>
+        
+        <p class="text-[9px] text-zinc-500 uppercase tracking-widest mb-6 italic">
+            Scan using any UPI App
+        </p>
+        
+        <button onclick="confirmPaymentWhatsApp()" class="w-full bg-green-600 py-3 font-black uppercase tracking-widest text-[10px] text-white hover:bg-green-700 transition active:scale-95">
+            I've Paid (Send Screenshot)
+        </button>
+    </div>
+</div>
+
+<script>
+window.onscroll = function() {
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let scrolled = (winScroll / height) * 100;
+    document.getElementById("scroll-progress").style.width = scrolled + "%";
+};
+
+</script>
+
+<div id="vaultModal" class="fixed inset-0 bg-black z-[150] hidden flex-col overflow-y-auto no-scrollbar">
+    <div class="sticky top-0 bg-black/90 backdrop-blur-md p-6 border-b border-zinc-900 flex justify-between items-center z-20">
+        <h2 class="text-xl font-black italic uppercase tracking-tighter text-white">The Full Garage <span class="text-red-600">.</span></h2>
+        <button onclick="closeVault()" class="text-white hover:text-red-600 transition p-2">
+            <i class="fa-solid fa-xmark text-3xl"></i>
+        </button>
+    </div>
+
+    <div id="vaultGrid" class="p-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        </div>
+</div>
+
+<script>
+const hotWheelsData = [
+    // --- JDM LEGENDS ---
+    { name: "Nissan Skyline R34 GT-R", price: 827, img: "https://m.media-amazon.com/images/I/61gzpA9Nk7L._SX522_.jpg" },
+    { name: "Toyota Supra MK4 (Orange)", price: 17780, img: "https://m.media-amazon.com/images/I/71cJxLZ-hcL._SX522_.jpg" },
+    { name: "Mazda RX-7 FD (Mad Mike)", price: 388, img: "https://m.media-amazon.com/images/I/71crj897f5L._SX522_.jpg" },
+    { name: "Honda Civic Type R (EK9)", price: 999, img: "https://m.media-amazon.com/images/I/71mNRtttR-L._SX522_.jpg" },
+    { name: "Subaru Impreza 22B", price: 494, img: "https://m.media-amazon.com/images/I/61jrPqXS8WL._SX522_.jpg" },
+    { name: "Nissan Silvia S15 Liberty Walk", price: 539, img: "https://m.media-amazon.com/images/I/71wS67QYUXL._SX522_.jpg" },
+    { name: "Mitsubishi Lancer Evo VI", price: 1979, img: "https://m.media-amazon.com/images/I/811ApaY2zRL.jpg" },
+
+    // --- SUPERCARS & EXOTICS ---
+    { name: "Lamborghini Aventador SVJ", price: 1399, img: "https://m.media-amazon.com/images/I/6101y3VmVZL._SX522_.jpg" },
+    { name: "Bugatti Chiron Sport", price: 2823, img: "https://m.media-amazon.com/images/I/71lMECiOIXL._SY679_.jpg" },
+    { name: "Porsche 911 GT3 RS", price: 1953, img: "https://m.media-amazon.com/images/I/81B8Xrb0VOL._SX522_.jpg" },
+    { name: "Ferrari F40 (Red)", price: 1299, img: "https://m.media-amazon.com/images/I/71-dr28BjwL._SY879_.jpg" },
+    { name: "Pagani Huayra Roadster", price: 849, img: "https://m.media-amazon.com/images/I/616fM9+Uw3L._SX522_.jpg" },
+    { name: "McLaren Senna (Victory Grey)", price: 999, img: "https://m.media-amazon.com/images/I/81jeOz7z6eL._AC_SL1500_.jpg" },
+    { name: "Koenigsegg Jesko", price: 1499, img: "https://m.media-amazon.com/images/I/61D+3k8OXAL._SX522_.jpg" },
+
+    // --- AMERICAN MUSCLE ---
+    { name: "Ford Mustang Shelby GT500", price: 1499, img: "https://m.media-amazon.com/images/I/611MmpN7pSL._SX522_.jpg" },
+    { name: "Dodge Charger Hellcat Widebody", price: 475, img: "https://m.media-amazon.com/images/I/516f6gZKjlL._SX522_.jpg" },
+    { name: "Chevrolet Camaro ZL1", price: 1995, img: "https://m.media-amazon.com/images/I/71AYmH6FMJL._SY879_.jpg" },
+    { name: "Plymouth Barracuda 1970", price: 375, img: "https://m.media-amazon.com/images/I/61phz3hR4OL._SX522_.jpg" },
+    { name: "Pontiac Firebird Trans Am", price: 335, img: "https://m.media-amazon.com/images/I/418IrPkvqYL._SY300_SX300_QL70_FMwebp_.jpg" },
+
+    // --- MOVIE & THEME CARS ---
+    { name: "Fast & Furious Dodge Charger", price: 1409, img: "https://m.media-amazon.com/images/I/615f5WQbBKL._SX522_.jpg" },
+    { name: "Batman Batmobile (Arkham)", price: 1449, img: "https://m.media-amazon.com/images/I/51m2aVq1R5L.jpg" },
+    { name: "DeLorean (Back to the Future)", price: 399, img: "https://m.media-amazon.com/images/I/61WijaWS90L._SX522_.jpg" },
+    { name: "Scooby-Doo Mystery Machine", price: 7001, img: "https://m.media-amazon.com/images/I/71QfUjLxs-L._SX522_.jpg" },
+
+    // --- OFF-ROAD & TRACK ---
+    { name: "Ford Bronco 'R'", price: 1959, img: "https://m.media-amazon.com/images/I/61TcQCura9L._SY679_.jpg" },
+    { name: "Land Rover Defender 90", price: 549, img: "https://m.media-amazon.com/images/I/5110RmHvkJL._SX300_SY300_QL70_FMwebp_.jpg" },
+    { name: "Jeep Wrangler Rubicon", price: 798, img: "https://m.media-amazon.com/images/I/51FJSk4GCyL._SY300_SX300_QL70_FMwebp_.jpg" },
+    { name: "Mercedes G-Wagon G63", price: 12499, img: "https://tse2.mm.bing.net/th/id/OIP.3kL0v9M2YUi2k3WkWEZk1AHaJ4?rs=1&pid=ImgDetMain&o=7&rm=3" },
+    { name: "Audi RS6 Avant (Wagon)", price: 899, img: "https://rihappy.vtexassets.com/arquivos/ids/8391010/Carrinho---Hot-Wheels---Audi-RS6-Avant---Mattel-0.jpg?v=638864565977170000" },
+
+    // --- RANDOM COLLECTIBLES ---
+    { name: "Tesla Roadster (with Starman)", price: 599, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
+    { name: "Bone Shaker (Black & Gold)", price: 199, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
+    { name: "Twin Mill (Classic)", price: 189, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
+    { name: "Cyberpunk 2077 Porsche", price: 699, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" },
+    { name: "Volvo 240 Drift Wagon", price: 229, img: "https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" },
+    { name: "Toyota AE86 Trueno", price: 349, img: "https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" },
+    { name: "BMW M3 E46 (Blue)", price: 299, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
+    { name: "Aston Martin Valkyrie", price: 429, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
+    { name: "Lotus Evija", price: 379, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
+    { name: "Rimac Nevera", price: 399, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" },
+    { name: "Ford GT-40 Gulf Livery", price: 549, img: "https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" },
+    { name: "Shelby Cobra 427 S/C", price: 499, img: "https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" },
+    { name: "Jaguar E-Type Lightweight", price: 349, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
+    { name: "Corvette C8.R", price: 299, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
+    { name: "Buggati EB110", price: 449, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
+    { name: "Lancia Delta Integrale", price: 269, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" },
+    { name: "Alpine A110", price: 249, img: "https://m.media-amazon.com/images/I/51MphQ75cEL._SX522_.jpg" },
+    { name: "Custom '01 Acura Integra", price: 299, img: "https://m.media-amazon.com/images/I/613Qme8ZasL._SX679_.jpg" },
+    { name: "Alfa Romeo Giulia GTA", price: 329, img: "https://m.media-amazon.com/images/I/812YrPgwrbL._SX522_.jpg" },
+    { name: "Datsun 510 Wagon", price: 499, img: "https://m.media-amazon.com/images/I/71Y88mG+LGL._SX679_.jpg" },
+    { name: "Mercedes 500 E (W124)", price: 349, img: "https://m.media-amazon.com/images/I/71N-WJ8I7FL._SX679_.jpg" },
+    { name: "GMC Hummer EV", price: 299, img: "https://m.media-amazon.com/images/I/71gA+2XEwmL._SX522_.jpg" }
+];
+
+function openVault() {
+    const vault = document.getElementById('vaultModal');
+    vault.classList.remove('hidden');
+    vault.classList.add('flex');
+    document.body.style.overflow = 'hidden'; // Screen scroll lock
+    loadVault(); // Data load karne ke liye
+}
+
+function closeVault() {
+    const vault = document.getElementById('vaultModal');
+    vault.classList.add('hidden');
+    vault.classList.remove('flex');
+    document.body.style.overflow = 'auto'; // screen scoll unlock with some extra feathers 
+}
+
+// Ye function grid me saari gaadiyan bhar dega
+function loadVault() {
+    const grid = document.getElementById('vaultGrid');
+    // Agar pehle se loaded hai toh dubara mat karo
+    if(grid.innerHTML.trim() !== "") return; 
+
+    hotWheelsData.forEach(car => {
+        grid.innerHTML += `
+            <div class="bg-zinc-900 p-3 border border-zinc-800 hover:border-red-600 transition group">
+                <div class="aspect-square mb-3 overflow-hidden bg-black flex items-center justify-center">
+                    <img src="${car.img}" class="w-full h-full object-contain group-hover:scale-110 transition duration-500">
+                </div>
+                <p class="text-[9px] font-black uppercase italic truncate mb-1 text-white">${car.name}</p>
+                <p class="text-red-600 font-bold text-[10px] mb-3">₹${car.price}/-</p>
+                <button onclick="addToCart(\`${car.name}\`, ${car.price})" class="w-full bg-white text-black text-[8px] font-black py-2 uppercase hover:bg-red-600 hover:text-white transition active:scale-95">
+                    Add to Cart
+                </button>
+            </div>
+        `;
+    });
+}
+
+</script>
+</body>
+</html>
